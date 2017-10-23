@@ -184,3 +184,46 @@ private:
 	
 	std::auto_ptr<fImpl> spImpl_;
 };
+
+template<typename Functor2Bind>
+class BindArgAt : public FunctorImpl<typename Functor2Bind::RetType, typename Functor2Bind::ParmList::Tail>
+{
+public:
+	typedef typename Functor2Bind::_p1 Bound;
+	typedef typename Functor2Bind::RetType RetType;
+
+	BindArgAt(const Functor2Bind& fun, const Bound& b) : fun_(fun), b_(b){}
+
+	RetType operator() ()
+	{
+		return fun_(b_);
+	}
+	typedef typename Functor2Bind::_p2 _p1;
+	RetType operator() (_p1 p1)
+	{
+		return fun_(b_, p1);
+	}
+	typedef typename Functor2Bind::_p3 _p2;
+	RetType operator() (_p1 p1, _p2 p2)
+	{
+		return fun_(b_, p1, p2);
+	}
+	typedef typename Functor2Bind::_p4 _p3;
+	RetType operator() (_p1 p1, _p2 p2, _p3 p3)
+	{
+		return fun_(b_, p1, p2, p3);
+	}
+	BindArgAt* clone() { return new BindArgAt(*this); }
+private:
+	Functor2Bind fun_;
+	Bound b_;
+};
+
+template<typename Functor2Bind>
+std::auto_ptr<typename Functor2Bind::fImpl> BindFirst(const Functor2Bind& fn, const typename BindArgAt<Functor2Bind>::Bound& b)
+{
+	typedef typename Functor2Bind::RetType RT;
+	typedef typename Functor2Bind::ParmList::Tail TLIST;
+	typedef FunctorImpl<RT, TLIST> fImpl;
+	return std::auto_ptr<fImpl>(new BindArgAt<Functor2Bind>(fn, b));
+}

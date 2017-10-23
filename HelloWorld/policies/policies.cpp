@@ -68,15 +68,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << typeid(result).name() << std::endl;
 	C c;
 	//Functor<void, NullType> f1(c);
-	//Functor<int, TL2(int, int)> f2(c);
+	Functor<int, TL2(int, int)> f2(&c, &C::execute2);
 	//Functor<void, TL1(char)> f3(c);
 	//Functor<void, TL3(int, char, float)> f4(c);
 	//f1();
-	//f2(10, 20);
-	//f3('A');
+	f2(10, 20);
+	Functor<int, TL1(int)> f3(BindFirst(f2, 30));
+	f3(10);
 	//f4(10, 'a', 60.5);
 
 	Functor<void, NullType> f(&c, &C::execute1);
+	
 	f();
 	return 0;
 }
