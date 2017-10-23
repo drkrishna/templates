@@ -1,0 +1,13 @@
+﻿<Window x:Class="HelloWorld.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <StackPanel x:Name="stackpanel">
+        <Button x:Name="button" Height="30" Width="70" Content="OK" Margin="20"/>
+        <ListBox x:Name="listBox" Height="100" Width="100" Margin="20">
+            <ListBoxItem Content="Item 1"/>
+            <ListBoxItem Content="Item 2"/>
+            <ListBoxItem Content="Item 3"/>
+        </ListBox>
+    </StackPanel>
+</Window>

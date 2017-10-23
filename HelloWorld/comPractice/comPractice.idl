@@ -1,0 +1,44 @@
+// comPractice.idl : IDL source for comPractice
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (comPractice.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(875708B8-CF43-404D-A28F-05798B991C08),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IsampleIfc : IDispatch{
+	[id(1), helpstring("returns my name")] HRESULT GetMyName([out, retval] BSTR* bstrNameOut);
+};
+[
+	uuid(1B692D59-17CD-49BC-93F4-5146B3198C5F),
+	version(1.0),
+]
+library comPracticeLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(F3969485-3192-4D52-BABC-59952EEC3F29)		
+	]
+	dispinterface _IsampleIfcEvents
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(04B87A7D-2192-4C29-A736-AA3B8AD9325A)		
+	]
+	coclass SampleIfc
+	{
+		[default] interface IsampleIfc;
+		[default, source] dispinterface _IsampleIfcEvents;
+	};
+};
+
