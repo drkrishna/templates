@@ -191,7 +191,8 @@ class BindArgAt : public FunctorImpl<typename Functor2Bind::RetType, typename Fu
 public:
 	typedef typename Functor2Bind::_p1 Bound;
 	typedef typename Functor2Bind::RetType RetType;
-
+typedef typename Functor2Bind::ParmList::Tail ParmList;
+typedef FunctorImpl<RetType, ParmList> fimpl;
 	BindArgAt(const Functor2Bind& fun, const Bound& b) : fun_(fun), b_(b){}
 
 	RetType operator() ()
@@ -220,10 +221,8 @@ private:
 };
 
 template<typename Functor2Bind>
-std::auto_ptr<typename Functor2Bind::fImpl> BindFirst(const Functor2Bind& fn, const typename BindArgAt<Functor2Bind>::Bound& b)
+std::auto_ptr<typename BindArgAt<Functor2Bind>::fImpl> BindFirst(const Functor2Bind& fn, const typename BindArgAt<Functor2Bind>::Bound& b)
 {
-	typedef typename Functor2Bind::RetType RT;
-	typedef typename Functor2Bind::ParmList::Tail TLIST;
-	typedef FunctorImpl<RT, TLIST> fImpl;
-	return std::auto_ptr<fImpl>(new BindArgAt<Functor2Bind>(fn, b));
+	typedef typename BindArgAt<Functor2Bind>::fimpl fimpl;
+ std::auto_ptr<fImpl>(new BindArgAt<Functor2Bind>(fn, b));
 }
